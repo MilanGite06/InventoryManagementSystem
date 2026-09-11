@@ -2,6 +2,7 @@
 using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Services;
 using InventoryManagementSystem.Reports;
+using System.Linq;
 
 namespace InventoryManagementSystem
 {
@@ -77,37 +78,100 @@ namespace InventoryManagementSystem
                             decimal price = Convert.ToDecimal(Console.ReadLine());
                             Console.Write("Enter quantity: ");
                             int qty = Convert.ToInt32(Console.ReadLine());
+                            Console.Write("Enter reorder level for this product: ");
+                            int reorderLevel = Convert.ToInt32(Console.ReadLine());
+                            Console.Write("Enter supplier name: ");
+                            string supplierName = Console.ReadLine();
+                            Console.Write("Enter category name: ");
+                            string categoryName = Console.ReadLine();
 
-                            Category category = new Category(1, "General"); // simplified for console phase
-                            Supplier supplier = new Supplier(1, "Default Supplier", "0000000000");
+                            Category category = new Category(1, categoryName);
+                            Supplier supplier = new Supplier(1, supplierName, "0000000000");
 
                             productService.AddProduct(name, price, qty, category, supplier);
 
-                            // Also initialize stock record for this product
                             var addedProduct = productService.GetAllProducts()[productService.GetAllProducts().Count - 1];
-                            Console.Write("Enter reorder level for this product: ");
-                            int reorderLevel = Convert.ToInt32(Console.ReadLine());
                             stockService.InitializeStock(addedProduct, qty, reorderLevel);
+
+                            Console.WriteLine("\n----- Product Added Successfully -----");
+                            Console.WriteLine(addedProduct.ToString());
+                            Console.WriteLine("---------------------------------------");
                             break;
 
                         case "2":
-                            Console.Write("Enter product ID to update: ");
+                            var allProducts = productService.GetAllProducts();
+                            if (allProducts.Count == 0)
+                            {
+                                Console.WriteLine("No products available to update.");
+                                break;
+                            }
+
+                            Console.WriteLine("\n----- Select Product to Update -----");
+                            foreach (var p in allProducts)
+                            {
+                                Console.WriteLine(p.ToString());
+                            }
+                            Console.Write("\nEnter product ID to update: ");
                             int updateId = Convert.ToInt32(Console.ReadLine());
-                            Console.Write("Enter new name: ");
+
+                            var productToUpdate = allProducts.FirstOrDefault(p => p.ProductId == updateId);
+                            if (productToUpdate == null)
+                            {
+                                Console.WriteLine("Product not found.");
+                                break;
+                            }
+
+                            Console.WriteLine($"\nCurrent details: {productToUpdate.ToString()}");
+
+                            Console.Write($"Enter new name (leave blank to keep '{productToUpdate.ProductName}'): ");
                             string newName = Console.ReadLine();
-                            Console.Write("Enter new price: ");
-                            decimal newPrice = Convert.ToDecimal(Console.ReadLine());
-                            Console.Write("Enter new quantity: ");
-                            int newQty = Convert.ToInt32(Console.ReadLine());
-                            productService.UpdateProduct(updateId, newName, newPrice, newQty);
+                            if (string.IsNullOrWhiteSpace(newName)) newName = productToUpdate.ProductName;
+
+                            Console.Write($"Enter new price (leave blank to keep {productToUpdate.Price}): ");
+                            string priceInput = Console.ReadLine();
+                            decimal newPrice = string.IsNullOrWhiteSpace(priceInput) ? productToUpdate.Price : Convert.ToDecimal(priceInput);
+
+                            Console.Write($"Enter new quantity (leave blank to keep {productToUpdate.Quantity}): ");
+                            string qtyInput = Console.ReadLine();
+                            int newQty = string.IsNullOrWhiteSpace(qtyInput) ? productToUpdate.Quantity : Convert.ToInt32(qtyInput);
+
+                            Console.Write($"Enter new category (leave blank to keep '{productToUpdate.Category?.CategoryName}'): ");
+                            string newCategoryName = Console.ReadLine();
+                            Category newCategory = string.IsNullOrWhiteSpace(newCategoryName)
+                                ? productToUpdate.Category
+                                : new Category(productToUpdate.Category?.CategoryId ?? 1, newCategoryName);
+
+                            Console.Write($"Enter new supplier (leave blank to keep '{productToUpdate.Supplier?.SupplierName}'): ");
+                            string newSupplierName = Console.ReadLine();
+                            Supplier newSupplier = string.IsNullOrWhiteSpace(newSupplierName)
+                                ? productToUpdate.Supplier
+                                : new Supplier(productToUpdate.Supplier?.SupplierId ?? 1, newSupplierName, productToUpdate.Supplier?.ContactNumber ?? "0000000000");
+
+                            productService.UpdateProduct(updateId, newName, newPrice, newQty, newCategory, newSupplier);
+
+                            Console.WriteLine("\n----- Updated Product -----");
+                            Console.WriteLine(productToUpdate.ToString());
+                            Console.WriteLine("----------------------------");
                             break;
 
                         case "3":
-                            Console.Write("Enter product ID to delete: ");
+                            var productsForDelete = productService.GetAllProducts();
+                            if (productsForDelete.Count == 0)
+                            {
+                                Console.WriteLine("No products available to delete.");
+                                break;
+                            }
+
+                            Console.WriteLine("\n----- Select Product to Delete -----");
+                            foreach (var p in productsForDelete)
+                            {
+                                Console.WriteLine(p.ToString());
+                            }
+                            Console.Write("\nEnter product ID to delete: ");
                             int deleteId = Convert.ToInt32(Console.ReadLine());
+
                             productService.DeleteProduct(deleteId);
                             break;
-
                         case "4":
                             Console.Write("Enter search keyword: ");
                             string keyword = Console.ReadLine();
@@ -163,21 +227,23 @@ namespace InventoryManagementSystem
                     switch (choice)
                     {
                         case "1":
-                            Console.Write("Enter product ID: ");
+                            stockService.DisplayAllStock();
+                            Console.Write("\nEnter product ID to stock in: ");
                             int inId = Convert.ToInt32(Console.ReadLine());
                             Console.Write("Enter quantity to add: ");
                             int inQty = Convert.ToInt32(Console.ReadLine());
-                            Console.Write("Performed by (name): ");
+                            Console.Write("Performed by (staff name): ");
                             string inBy = Console.ReadLine();
                             stockService.StockIn(inId, inQty, inBy);
                             break;
 
                         case "2":
-                            Console.Write("Enter product ID: ");
+                            stockService.DisplayAllStock();
+                            Console.Write("\nEnter product ID to stock out: ");
                             int outId = Convert.ToInt32(Console.ReadLine());
                             Console.Write("Enter quantity to remove: ");
                             int outQty = Convert.ToInt32(Console.ReadLine());
-                            Console.Write("Performed by (name): ");
+                            Console.Write("Performed by (staff name): ");
                             string outBy = Console.ReadLine();
                             stockService.StockOut(outId, outQty, outBy);
                             break;
