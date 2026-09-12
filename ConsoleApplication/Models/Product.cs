@@ -64,7 +64,7 @@ namespace InventoryManagementSystem.Models
 
         public override string ToString()
         {
-            return $"[{ProductId}] {ProductName} | Price: {Price:C} | Qty: {Quantity} | Category: {Category?.CategoryName} | Supplier: {Supplier?.SupplierName}";
+            return $"[{ProductId}] {ProductName} | Price: ${Price:F2} | Qty: {Quantity} | Category: {Category?.CategoryName} | Supplier: {Supplier?.SupplierName}";
         }
     }
 }
