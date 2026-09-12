@@ -71,9 +71,9 @@ namespace InventoryManagementSystem.Reports
                 {
                     decimal value = product.Price * product.Quantity;
                     totalValue += value;
-                    Console.WriteLine($"{product.ProductName} - Value: {value:C}");
+                    Console.WriteLine($"{product.ProductName} : Value=${value:F2}");
                 }
-                Console.WriteLine($"\nTotal Inventory Value: {totalValue:C}");
+                Console.WriteLine($"\nTotal Inventory Value: ${totalValue:F2}");
             }
             Console.WriteLine("===================================\n");
         }
