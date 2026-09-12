@@ -25,7 +25,7 @@ namespace InventoryManagementSystem.Services
             }
         }
 
-        public void UpdateProduct(int productId, string name, decimal price, int quantity)
+        public void UpdateProduct(int productId, string name, decimal price, int quantity, Category category, Supplier supplier)
         {
             try
             {
@@ -39,6 +39,8 @@ namespace InventoryManagementSystem.Services
                 product.ProductName = name;
                 product.Price = price;
                 product.Quantity = quantity;
+                product.Category = category;
+                product.Supplier = supplier;
                 Console.WriteLine($"Product '{name}' updated successfully.");
             }
             catch (ArgumentException ex)
