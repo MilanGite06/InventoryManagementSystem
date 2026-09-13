@@ -1,0 +1,41 @@
+﻿@model List<InventoryManagement.Web.Models.Stock>
+
+@{
+    ViewData["Title"] = "Stock Overview";
+}
+
+<h2>Stock Overview</h2>
+
+<p>
+    <a asp-action="Initialize">+ Initialize Stock for Product</a> |
+    <a asp-action="StockIn">Stock In</a> |
+    <a asp-action="StockOut">Stock Out</a> |
+    <a asp-action="Transactions">Transaction History</a>
+</p>
+
+<table>
+    <tr>
+        <th>Product</th>
+        <th>Available Quantity</th>
+        <th>Reorder Level</th>
+        <th>Status</th>
+    </tr>
+    @foreach (var stock in Model)
+    {
+        <tr>
+            <td>@stock.Product?.ProductName</td>
+            <td>@stock.QuantityAvailable</td>
+            <td>@stock.ReorderLevel</td>
+            <td>
+                @if (stock.QuantityAvailable <= stock.ReorderLevel)
+                {
+                    <span style="color:red;font-weight:600;">Low Stock</span>
+                }
+                else
+                {
+                    <span style="color:green;">OK</span>
+                }
+            </td>
+        </tr>
+    }
+</table>

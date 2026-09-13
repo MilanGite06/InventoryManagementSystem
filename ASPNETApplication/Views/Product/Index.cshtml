@@ -1,0 +1,39 @@
+﻿@model List<InventoryManagement.Web.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h2>Product Management</h2>
+
+<p><a asp-action="Create">+ Add New Product</a></p>
+
+<form method="get" asp-action="Index">
+    <input type="text" name="searchTerm" placeholder="Search by name..." />
+    <button type="submit">Search</button>
+</form>
+
+<table border="1" cellpadding="5">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Supplier</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.ProductId</td>
+            <td>@product.ProductName</td>
+            <td>Rs. @product.Price.ToString("F2")</td>
+            <td>@product.Category?.CategoryName</td>
+            <td>@product.Supplier?.SupplierName</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@product.ProductId">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@product.ProductId">Delete</a>
+            </td>
+        </tr>
+    }
+</table>

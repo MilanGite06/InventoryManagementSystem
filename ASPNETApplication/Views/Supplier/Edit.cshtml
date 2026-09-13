@@ -1,0 +1,26 @@
+﻿@model InventoryManagement.Web.Models.Supplier
+
+@{
+    ViewData["Title"] = "Edit Supplier";
+}
+
+<h2>Edit Supplier</h2>
+
+<form method="post" asp-action="Edit">
+    <input type="hidden" name="SupplierId" value="@Model.SupplierId" />
+    <div>
+        <label>Supplier Name</label>
+        <input type="text" name="SupplierName" value="@Model.SupplierName" required />
+    </div>
+    <div>
+        <label>Contact Number</label>
+        <input type="text" name="ContactNumber" value="@Model.ContactNumber" />
+    </div>
+    <div>
+        <label>Email</label>
+        <input type="email" name="Email" value="@Model.Email" />
+    </div>
+    <button type="submit">Save Changes</button>
+</form>
+
+<p><a asp-action="Index">Back to List</a></p>

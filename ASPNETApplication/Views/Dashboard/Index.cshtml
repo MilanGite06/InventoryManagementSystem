@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2>Welcome, @ViewBag.Username (@ViewBag.Role)</h2>
+
+<div style="display:flex; gap:16px; margin:24px 0; flex-wrap:wrap;">
+    <div style="background:white; padding:20px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.08); min-width:160px;">
+        <div style="font-size:13px; color:#64748B;">Total Products</div>
+        <div style="font-size:28px; font-weight:600;">@ViewBag.TotalProducts</div>
+    </div>
+    <div style="background:white; padding:20px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.08); min-width:160px;">
+        <div style="font-size:13px; color:#64748B;">Total Suppliers</div>
+        <div style="font-size:28px; font-weight:600;">@ViewBag.TotalSuppliers</div>
+    </div>
+    <div style="background:white; padding:20px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.08); min-width:160px;">
+        <div style="font-size:13px; color:#64748B;">Categories</div>
+        <div style="font-size:28px; font-weight:600;">@ViewBag.TotalCategories</div>
+    </div>
+    <div style="background:white; padding:20px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.08); min-width:160px;">
+        <div style="font-size:13px; color:#64748B;">Low Stock Items</div>
+        <div style="font-size:28px; font-weight:600; color:@(((int)ViewBag.LowStockCount) > 0 ? "#DC2626" : "#0F172A");">@ViewBag.LowStockCount</div>
+    </div>
+    <div style="background:white; padding:20px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.08); min-width:160px;">
+        <div style="font-size:13px; color:#64748B;">Inventory Value</div>
+        <div style="font-size:28px; font-weight:600;">Rs. @(((decimal)ViewBag.TotalInventoryValue).ToString("F2"))</div>
+    </div>
+</div>
+
+<h3>Recent Transactions</h3>
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Product</th>
+        <th>Type</th>
+        <th>Quantity</th>
+        <th>By</th>
+    </tr>
+    @foreach (var t in ViewBag.RecentTransactions)
+    {
+        <tr>
+            <td>@t.TransactionDate.ToString("g")</td>
+            <td>@t.Product?.ProductName</td>
+            <td>@t.Type</td>
+            <td>@t.Quantity</td>
+            <td>@t.PerformedBy</td>
+        </tr>
+    }
+</table>
+
+<p><a asp-controller="Account" asp-action="Logout">Logout</a></p>

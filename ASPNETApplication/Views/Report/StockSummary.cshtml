@@ -1,0 +1,22 @@
+﻿@model List<InventoryManagement.Web.Models.Stock>
+
+@{
+    ViewData["Title"] = "Stock Summary Report";
+}
+
+<h2>Stock Summary Report</h2>
+
+<button onclick="window.print()" class="print-btn">Print Report</button>
+<table>
+    <tr><th>Product</th><th>Available</th><th>Reorder Level</th></tr>
+    @foreach (var s in Model)
+    {
+        <tr>
+            <td>@s.Product?.ProductName</td>
+            <td>@s.QuantityAvailable</td>
+            <td>@s.ReorderLevel</td>
+        </tr>
+    }
+</table>
+
+<p><a asp-action="Index">Back to Reports</a></p>

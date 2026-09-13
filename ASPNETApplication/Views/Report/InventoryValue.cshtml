@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Inventory Value Report";
+}
+
+<h2>Inventory Value Report</h2>
+
+<button onclick="window.print()" class="print-btn">Print Report</button>
+<table>
+    <tr><th>Product</th><th>Quantity</th><th>Price</th><th>Value</th></tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Product.ProductName</td>
+            <td>@item.Quantity</td>
+            <td>Rs. @item.Product.Price.ToString("F2")</td>
+            <td>Rs. @item.Value.ToString("F2")</td>
+        </tr>
+    }
+</table>
+
+<h3>Total Inventory Value: Rs. @(((decimal)ViewBag.TotalValue).ToString("F2"))</h3>
+<p><a asp-action="Index">Back to Reports</a></p>

@@ -1,0 +1,33 @@
+﻿@model List<InventoryManagement.Web.Models.StockTransaction>
+
+@{
+    ViewData["Title"] = "Transaction History Report";
+}
+
+<h2>Transaction History Report</h2>
+
+<form method="get" asp-action="TransactionHistory">
+    <select name="type">
+        <option value="">All Types</option>
+        <option value="StockIn" selected="@(ViewBag.SelectedType == "StockIn")">Stock In</option>
+        <option value="StockOut" selected="@(ViewBag.SelectedType == "StockOut")">Stock Out</option>
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+<button onclick="window.print()" class="print-btn">Print Report</button>
+<table>
+    <tr><th>Date</th><th>Product</th><th>Type</th><th>Quantity</th><th>By</th></tr>
+    @foreach (var t in Model)
+    {
+        <tr>
+            <td>@t.TransactionDate.ToString("g")</td>
+            <td>@t.Product?.ProductName</td>
+            <td>@t.Type</td>
+            <td>@t.Quantity</td>
+            <td>@t.PerformedBy</td>
+        </tr>
+    }
+</table>
+
+<p><a asp-action="Index">Back to Reports</a></p>

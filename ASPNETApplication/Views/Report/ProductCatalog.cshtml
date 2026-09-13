@@ -1,0 +1,35 @@
+﻿@model List<InventoryManagement.Web.Models.Product>
+
+@{
+    ViewData["Title"] = "Product Catalog Report";
+}
+
+<h2>Product Catalog Report</h2>
+
+<form method="get" asp-action="ProductCatalog">
+    <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" placeholder="Search by name..." />
+    <button type="submit">Search</button>
+</form>
+
+<button onclick="window.print()" class="print-btn">Print Report</button>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Supplier</th>
+    </tr>
+    @foreach (var p in Model)
+    {
+        <tr>
+            <td>@p.ProductId</td>
+            <td>@p.ProductName</td>
+            <td>Rs. @p.Price.ToString("F2")</td>
+            <td>@p.Category?.CategoryName</td>
+            <td>@p.Supplier?.SupplierName</td>
+        </tr>
+    }
+</table>
+
+<p><a asp-action="Index">Back to Reports</a></p>

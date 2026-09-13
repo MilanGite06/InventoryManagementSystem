@@ -1,0 +1,54 @@
+﻿@model InventoryManagement.Web.Models.Product
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<h2>Edit Product</h2>
+
+<form method="post" asp-action="Edit">
+    <input type="hidden" name="ProductId" value="@Model.ProductId" />
+    <div>
+        <label>Product Name</label>
+        <input type="text" name="ProductName" value="@Model.ProductName" required />
+    </div>
+    <div>
+        <label>Price</label>
+        <input type="number" step="0.01" name="Price" value="@Model.Price" required />
+    </div>
+    <div>
+        <label>Category</label>
+        <select name="CategoryId">
+            @foreach (var cat in (List<InventoryManagement.Web.Models.Category>)ViewBag.Categories)
+            {
+                if (cat.CategoryId == Model.CategoryId)
+                {
+                    <option value="@cat.CategoryId" selected>@cat.CategoryName</option>
+                }
+                else
+                {
+                    <option value="@cat.CategoryId">@cat.CategoryName</option>
+                }
+            }
+        </select>
+    </div>
+    <div>
+        <label>Supplier</label>
+        <select name="SupplierId">
+            @foreach (var sup in (List<InventoryManagement.Web.Models.Supplier>)ViewBag.Suppliers)
+            {
+                if (sup.SupplierId == Model.SupplierId)
+                {
+                    <option value="@sup.SupplierId" selected>@sup.SupplierName</option>
+                }
+                else
+                {
+                    <option value="@sup.SupplierId">@sup.SupplierName</option>
+                }
+            }
+        </select>
+    </div>
+    <button type="submit">Save Changes</button>
+</form>
+
+<a asp-action="Index">Back to List</a>

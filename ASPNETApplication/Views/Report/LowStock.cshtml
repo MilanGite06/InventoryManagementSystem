@@ -1,0 +1,29 @@
+﻿@model List<InventoryManagement.Web.Models.Stock>
+
+@{
+    ViewData["Title"] = "Low Stock Report";
+}
+
+<h2>Low Stock Report</h2>
+
+<button onclick="window.print()" class="print-btn">Print Report</button>
+@if (Model.Count == 0)
+{
+    <p>No low stock items.</p>
+}
+else
+{
+    <table>
+        <tr><th>Product</th><th>Available</th><th>Reorder Level</th></tr>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.Product?.ProductName</td>
+                <td>@s.QuantityAvailable</td>
+                <td>@s.ReorderLevel</td>
+            </tr>
+        }
+    </table>
+}
+
+<p><a asp-action="Index">Back to Reports</a></p>

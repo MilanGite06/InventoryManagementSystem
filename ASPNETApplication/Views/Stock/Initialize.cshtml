@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Initialize Stock";
+}
+
+<h2>Initialize Stock for a Product</h2>
+
+<form method="post" asp-action="Initialize">
+    <div>
+        <label>Product</label>
+        <select name="productId">
+            @foreach (var p in (List<InventoryManagement.Web.Models.Product>)ViewBag.Products)
+            {
+                <option value="@p.ProductId">@p.ProductName</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label>Initial Quantity</label>
+        <input type="number" name="quantityAvailable" required />
+    </div>
+    <div>
+        <label>Reorder Level</label>
+        <input type="number" name="reorderLevel" required />
+    </div>
+    <button type="submit">Initialize</button>
+</form>
+
+<p><a asp-action="Index">Back to Stock Overview</a></p>

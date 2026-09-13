@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Stock In";
+}
+
+<h2>Stock In</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div style="color:red">@ViewBag.Error</div>
+}
+
+<form method="post" asp-action="StockIn">
+    <div>
+        <label>Product</label>
+        <select name="productId">
+            @foreach (var s in (List<InventoryManagement.Web.Models.Stock>)ViewBag.Stocks)
+            {
+                <option value="@s.ProductId">@s.Product.ProductName (Available: @s.QuantityAvailable)</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label>Quantity to Add</label>
+        <input type="number" name="quantity" required />
+    </div>
+    <div>
+        <label>Performed By (Staff Name)</label>
+        <input type="text" name="performedBy" required />
+    </div>
+    <button type="submit">Stock In</button>
+</form>
+
+<p><a asp-action="Index">Back to Stock Overview</a></p>
