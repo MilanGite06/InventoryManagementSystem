@@ -1,3 +1,4 @@
+
 * {
     box-sizing: border-box;
 }
@@ -235,3 +236,67 @@ a {
 
 </style >
 
+/* Responsive layout for mobile */
+@media (max-width: 768px) {
+    .app-layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 12px;
+        align-items: center;
+    }
+
+    .sidebar-brand {
+        border-bottom: none;
+        padding: 0 12px 0 0;
+        margin-bottom: 0;
+        font-size: 16px;
+    }
+
+    .sidebar-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex-grow: 1;
+    }
+
+        .sidebar-nav a {
+            padding: 8px 10px;
+            font-size: 13px;
+        }
+
+    .sidebar-footer {
+        border-top: none;
+        padding: 0;
+        margin-left: auto;
+    }
+
+    .main-content {
+        padding: 16px;
+    }
+
+        .main-content h2 {
+            font-size: 20px;
+        }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    form input[type="text"],
+    form input[type="password"],
+    form input[type="number"],
+    form input[type="email"],
+    form select {
+        max-width: 100%;
+    }
+
+    .report-grid {
+        grid-template-columns: 1fr;
+    }
+}
