@@ -1,0 +1,8 @@
+{
+  "name": "Inventory Management System",
+  "short_name": "InventoryMS",
+  "start_url": "/Dashboard/Index",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#1E293B"
+}
