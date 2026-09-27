@@ -27,6 +27,8 @@
     </div>
 </div>
 
+<button onclick="enableNotifications()" class="print-btn">Enable Low Stock Notifications</button>
+
 <h3>Recent Transactions</h3>
 <table>
     <tr>
@@ -49,3 +51,28 @@
 </table>
 
 <p><a asp-controller="Account" asp-action="Logout">Logout</a></p>
+
+<script>
+    const lowStockCount = @ViewBag.LowStockCount;
+
+    function enableNotifications() {
+        if (!("Notification" in window)) {
+            alert("This browser does not support notifications.");
+            return;
+        }
+
+        Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+                if (lowStockCount > 0) {
+                    new Notification("Low Stock Alert", {
+                        body: lowStockCount + " product(s) are running low on stock."
+                    });
+                } else {
+                    new Notification("Notifications Enabled", {
+                        body: "You'll be alerted when stock runs low."
+                    });
+                }
+            }
+        });
+    }
+</script>
